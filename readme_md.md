@@ -116,3 +116,4 @@ You can easily customize:
 - Session enrollment is automatically updated when registrations are completed
 - All dates and times are displayed in user-friendly formats
 - The waiver form includes all the specified legal text
+- Username admin Password klayko
