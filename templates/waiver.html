@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <h2 class="mb-4">Waiver and Release of Liability Form</h2>
+        
+        <div class="waiver-content">
+            <h4 class="text-center mb-4">Klayko Sucks at Volleyball Camp</h4>
+            
+            <p>My daughter/dependent <strong>{{ registration_data.first_name }} {{ registration_data.last_name }}</strong>, has registered for the Wooster Volleyball Camp held on the campus of The College of Wooster.</p>
+            
+            <p>I understand all the risks associated with participation in this program. I certify that the undersigned camper is physically capable of participating in the Wooster Volleyball Camp and all related activities. Exceptions are noted on the medical form.</p>
+            
+            <p>I, the undersigned, waive and release the Wooster Volleyball Camp, its directors, coaches, staff, independent contractors, The College of Wooster and its employees, volunteers, staff and representatives from any and all liability, claims, demands, and causes of action arising out of or related to any loss, personal injury (including death), disease, illness, or property loss that may be sustained or occur from participation in or otherwise be associated with the Wooster Volleyball Camp.</p>
+            
+            <p>I have read the camp rules and expectations and agree to adhere to them.</p>
+            
+            <p>I understand that valuables are brought to camp at campers own risk. Any personal items lost or stolen will not be replaced by the Wooster Volleyball Camp.</p>
+            
+            <p>I understand refunds minus a $50 processing fee can only be granted until 14 days prior to the start of camp and no refunds will be granted to campers who choose to leave camp early.</p>
+            
+            <p>I hereby consent to receive medical treatment which may be deemed advisable in the event of injury, accident, and/or illness during camp.</p>
+            
+            <p>I understand that campers may be photographed during the camp. I agree to allow undersigned camper's photo to be used for legitimate purpose by the Wooster Volleyball Camp. In any promotional materials camper would not need to be identified by name.</p>
+            
+            <p><strong>I have read and fully understand this release of liability. I sign it of my own free will.</strong></p>
+        </div>
+
+        <form method="POST" id="waiverForm">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="camper_signature" class="form-label">Camper Signature <span class="required">*</span></label>
+                    <input type="text" class="form-control signature-box" id="camper_signature" name="camper_signature" placeholder="Type your full name as signature" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Date</label>
+                    <input type="text" class="form-control" value="{{ current_date }}" readonly>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="parent_signature" class="form-label">Parent/Guardian Signature <span class="required">*</span></label>
+                    <input type="text" class="form-control signature-box" id="parent_signature" name="parent_signature" placeholder="Type your full name as signature" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Date</label>
+                    <input type="text" class="form-control" value="{{ current_date }}" readonly>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="waiver_agreed" name="waiver_agreed" required>
+                    <label class="form-check-label" for="waiver_agreed">
+                        <strong>I have read and agree to all terms and conditions stated in this waiver and release of liability form.</strong>
+                    </label>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('register') }}" class="btn btn-secondary me-md-2">Back to Registration</a>
+                <button type="submit" class="btn btn-primary">Complete Registration</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('waiverForm').addEventListener('submit', function(e) {
+    const camperSig = document.getElementById('camper_signature').value.trim();
+    const parentSig = document.getElementById('parent_signature').value.trim();
+    const waiverAgreed = document.getElementById('waiver_agreed').checked;
+    
+    if (!camperSig || !parentSig || !waiverAgreed) {
+        e.preventDefault();
+        alert('Please complete all required fields and agree to the waiver.');
+        return false;
+    }
+});
+</script>
+{% endblock %}

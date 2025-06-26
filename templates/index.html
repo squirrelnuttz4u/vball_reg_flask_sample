@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <h2 class="mb-4">Welcome to Volleyball Camp Registration</h2>
+        <p class="lead">Join us for an exciting volleyball training experience at The College of Wooster!</p>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">What to Expect</h5>
+                <ul class="list-unstyled">
+                    <li><strong>Professional Coaching:</strong> Learn from experienced volleyball coaches</li>
+                    <li><strong>Skill Development:</strong> Improve your serving, spiking, and defensive techniques</li>
+                    <li><strong>Team Building:</strong> Make new friends and develop teamwork skills</li>
+                    <li><strong>Fun Activities:</strong> Enjoy games and competitions throughout the camp</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3">Register Now</a>
+            <a href="{{ url_for('admin_login') }}" class="btn btn-outline-secondary">Admin Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

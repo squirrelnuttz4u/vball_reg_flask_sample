@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="text-center mb-4">
+            <div class="alert alert-success">
+                <h3><i class="bi bi-check-circle"></i> Registration Complete!</h3>
+                <p class="mb-0">Thank you for registering for Klayko Sucks at Volleyball Camp!</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Registration Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Camper Information</h6>
+                        <p><strong>Name:</strong> {{ registration.first_name }} {{ registration.last_name }}</p>
+                        <p><strong>Date of Birth:</strong> {{ registration.dob.strftime('%B %d, %Y') }}</p>
+                        <p><strong>Address:</strong><br>
+                           {{ registration.address }}<br>
+                           {{ registration.city }}, {{ registration.state }} {{ registration.zipcode }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Camp Session</h6>
+                        <p><strong>Date:</strong> {{ registration.camp_session.date.strftime('%B %d, %Y') }}</p>
+                        <p><strong>Time:</strong> {{ registration.camp_session.time }}</p>
+                        <p><strong>Location:</strong> {{ registration.camp_session.location }}</p>
+                        <p><strong>Price:</strong> ${{ "%.2f"|format(registration.camp_session.price) }}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Important Information</h6>
+                        <ul>
+                            <li>Please arrive 15 minutes early for check-in</li>
+                            <li>Bring water bottle, athletic shoes, and comfortable clothing</li>
+                            <li>Refunds (minus $50 processing fee) available until 14 days before camp</li>
+                            <li>Contact us if you have any questions or concerns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Home</a>
+            <button onclick="window.print()" class="btn btn-outline-secondary">Print Confirmation</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

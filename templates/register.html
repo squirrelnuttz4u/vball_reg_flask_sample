@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h2 class="mb-4">Camp Registration</h2>
+        
+        <form method="POST" id="registrationForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ request.form.first_name if request.form.first_name }}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ request.form.last_name if request.form.last_name }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth <span class="required">*</span></label>
+                <input type="date" class="form-control" id="dob" name="dob" required value="{{ request.form.dob if request.form.dob }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="address" class="form-label">Address <span class="required">*</span></label>
+                <input type="text" class="form-control" id="address" name="address" required value="{{ request.form.address if request.form.address }}">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="city" name="city" required value="{{ request.form.city if request.form.city }}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State <span class="required">*</span></label>
+                        <select class="form-select" id="state" name="state" required>
+                            <option value="">Select State</option>
+                            {% for code, name in states %}
+                                <option value="{{ code }}" {% if request.form.state == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="zipcode" class="form-label">Zip Code <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="zipcode" name="zipcode" required pattern="[0-9]{5}(-[0-9]{4})?" value="{{ request.form.zipcode if request.form.zipcode }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Select Camp Session <span class="required">*</span></label>
+                {% if camp_sessions %}
+                    {% for session in camp_sessions %}
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="camp_session_id" id="session{{ session.id }}" value="{{ session.id }}" {% if request.form.camp_session_id == session.id|string %}checked{% endif %} {% if session.is_full %}disabled{% endif %} required>
+                                    <label class="form-check-label" for="session{{ session.id }}">
+                                        <strong>{{ session.date.strftime('%B %d, %Y') }}</strong> - {{ session.time }}<br>
+                                        <small class="text-muted">{{ session.location }}</small><br>
+                                        <small>Price: ${{ "%.2f"|format(session.price) }}</small>
+                                        {% if session.is_full %}
+                                            <span class="badge bg-danger ms-2">FULL</span>
+                                        {% else %}
+                                            <span class="badge bg-success ms-2">{{ session.available_spots }} spots available</span>
+                                        {% endif %}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">
+                        No camp sessions are currently available. Please check back later.
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary me-md-2">Back to Home</a>
+                <button type="submit" class="btn btn-primary">Continue to Waiver</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    const selectedSession = document.querySelector('input[name="camp_session_id"]:checked');
+    if (!selectedSession) {
+        e.preventDefault();
+        alert('Please select a camp session.');
+        return false;
+    }
+});
+</script>
+{% endblock %}
